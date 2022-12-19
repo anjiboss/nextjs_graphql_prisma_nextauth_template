@@ -1,4 +1,4 @@
-import { gql, useQuery } from "@apollo/client";
+import { gql, useMutation, useQuery } from "@apollo/client";
 import { NextPage } from "next";
 import { Session } from "next-auth";
 import { useEffect } from "react";
@@ -11,20 +11,38 @@ const HELLO_QUERY = gql`
   }
 `;
 
+const ADD_USER = gql`
+  mutation Example($name: String, $email: String!, $image: String) {
+    addUser(name: $name, email: $email, image: $image)
+  }
+`;
+
 const Home: NextPage<Session> = ({}) => {
-  const { data, loading } = useQuery(HELLO_QUERY);
+  const [mutateFunction] = useMutation(ADD_USER);
   const { data: session, status } = useSession();
 
   useEffect(() => {
-    console.log({
-      session,
-      status,
-    });
+    if (status === "authenticated") {
+    }
   }, [session, status]);
 
   return (
     <>
-      <h1>Hello {loading ? "Loading..." : data.hello}</h1>
+      {session && (
+        <button
+          onClick={() => {
+            mutateFunction({
+              variables: {
+                email: session.user?.email,
+                name: session.user?.name,
+                image: session.user?.image,
+              },
+            });
+          }}
+        >
+          Add User
+        </button>
+      )}
       <LoginBtn />
     </>
   );
