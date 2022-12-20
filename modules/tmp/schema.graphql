@@ -1,0 +1,7 @@
+type Query {
+  hello: String
+}
+
+type Mutation {
+  addUser(name: String, email: String, image: String): Boolean
+}
