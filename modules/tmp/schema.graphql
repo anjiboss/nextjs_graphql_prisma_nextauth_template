@@ -3,5 +3,5 @@ type Query {
 }
 
 type Mutation {
-  addUser(name: String, email: String, image: String): Boolean
+  addUser(name: String, email: String!, image: String): Boolean
 }

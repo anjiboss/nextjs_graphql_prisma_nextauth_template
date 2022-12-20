@@ -1,17 +1,18 @@
-import { Context } from "@apollo/client";
 import { PrismaClient } from "@prisma/client";
+import { Resolvers } from "../../generated/graphql";
+import { GQContext } from "../../types/type";
 
 const prisma = new PrismaClient();
 
-const resolver = {
+const resolver: Resolvers<GQContext> = {
   Query: {
-    hello: (_parent: any, _arg: any, context: Context, info: any) => {
+    hello: (_parent, _args, context, _info) => {
       return context.hello;
     },
   },
   Mutation: {
-    addUser: async (_parent: any, args: any, context: Context, info: any) => {
-      const { email, image, name }: { [x: string]: string } = args;
+    addUser: async (_parent, args, _context, _info) => {
+      const { email, image, name } = args;
       await prisma.user.upsert({
         where: {
           email,

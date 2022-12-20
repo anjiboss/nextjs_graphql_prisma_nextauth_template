@@ -8,3 +8,7 @@ declare module "next-auth/client" {
     };
   }
 }
+
+export interface GQContext extends BaseContext {
+  hello: string;
+}

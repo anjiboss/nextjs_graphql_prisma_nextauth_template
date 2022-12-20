@@ -39,3 +39,7 @@ next-env.d.ts
 yarn.lock
 package-lock.json
 .env
+
+
+# GraphQL Generated Files
+generated/graphql.ts

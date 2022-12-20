@@ -2,7 +2,7 @@
 
 # Install Packages
 
-```
+```bash
 npm install
 ```
 
@@ -18,6 +18,12 @@ cp .env.example .env
 
 ```bash
 npx prisma db push
+```
+
+# Generate TypeScript Types
+
+```bash
+npm run codegen
 ```
 
 # Start the app
