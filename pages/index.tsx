@@ -1,49 +1,27 @@
-import { gql, useMutation, useQuery } from "@apollo/client";
 import { NextPage } from "next";
 import { Session } from "next-auth";
 import { useEffect } from "react";
-import LoginBtn from "../components/LoginBtn";
-import { useSession } from "next-auth/react";
-
-const HELLO_QUERY = gql`
-  query Hello {
-    hello
-  }
-`;
-
-const ADD_USER = gql`
-  mutation Example($name: String, $email: String!, $image: String) {
-    addUser(name: $name, email: $email, image: $image)
-  }
-`;
+import { signOut, useSession } from "next-auth/react";
+import { useRouter } from "next/router";
+import Button from "../components/Button";
 
 const Home: NextPage<Session> = ({}) => {
-  const [mutateFunction] = useMutation(ADD_USER);
-  const { data: session, status } = useSession();
+  const { status } = useSession();
+  const router = useRouter();
 
   useEffect(() => {
-    if (status === "authenticated") {
+    if (status === "unauthenticated") {
+      router.push("/login");
     }
-  }, [session, status]);
+  }, [status, router]);
 
   return (
     <>
-      {session && (
-        <button
-          onClick={() => {
-            mutateFunction({
-              variables: {
-                email: session.user?.email,
-                name: session.user?.name,
-                image: session.user?.image,
-              },
-            });
-          }}
-        >
-          Add User
-        </button>
+      {status === "authenticated" && (
+        <p>
+          <Button onClick={() => signOut()}>Sign Out</Button>
+        </p>
       )}
-      <LoginBtn />
     </>
   );
 };
