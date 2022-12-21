@@ -43,3 +43,6 @@ package-lock.json
 
 # GraphQL Generated Files
 generated/graphql.ts
+
+# bak files
+*.bak
